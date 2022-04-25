@@ -6,7 +6,8 @@
 #########################################################
 
 # libraries
-import menu as mm
+import menu.menu as mm
+import os
 
 #################################################################
 # step 1: start program and request file
@@ -31,13 +32,11 @@ def step_1():
         usr_input = input(">>")
 
         # check if file is valid
-        try:
-            f = open(usr_input, 'w')
-            f.close()
+        if (os.path.exists(usr_input) == True):
             return [True, usr_input]
 
         # file is invalid
-        except:
+        else:
             mm.main_menu_printout(5, "error: could not open file", ["Incorrect file location. Please try again."])
             return [False, '']
 

@@ -8,7 +8,7 @@
 ###################################
 
 # libraries
-import program_logic as lc
+import menu.program_logic as lc
 
 # main menu cycle
 def crack():
