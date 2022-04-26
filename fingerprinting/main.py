@@ -58,8 +58,8 @@ if __name__ == "__main__":
         masterStringOriginal = input.read()
     input.close()
 
-    analysisTable = analysis(masterStringOriginal)
+    encryptedFrequencyTable = analysis(masterStringOriginal)
 
-    for key, value in analysisTable.items():
+    for key, value in encryptedFrequencyTable.items():
         print(key, value)
 
