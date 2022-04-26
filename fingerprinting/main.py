@@ -1,4 +1,5 @@
-import argparse
+import os
+import sys
 
 
 symbolSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ. '
@@ -28,15 +29,37 @@ AlphaFrequencyTable = {'A':0.0805,
                         'X': 0.0011,
                         'Y': 0.0204,
                         'Z': 0.0006,
-                        '.' : 0.000001,
-                        ' ': 0}
+                        '.': 0.0079,
+                        ' ': 0.1838}
+
+
+def analysis(file):
+    analysisTable = {}
+
+    totalSymbolCount = 1
+    for char in file:
+        if char.upper() in symbolSet:
+            totalSymbolCount += 1
+            if char.upper() in analysisTable:
+                analysisTable[char.upper()] += 1
+            else:
+                analysisTable[char.upper()] = 1
+
+    for key, value in analysisTable.items():
+        analysisTable[key] = value / totalSymbolCount
+    return analysisTable
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('file', type=argparse.FileType('r'))
-    args = parser.parse_args()
-
-    print(args.file.readlines())
+    inputFile = str(sys.argv[1])
 
 
-    analysisTable = {}
+    with open(str(inputFile), "r") as input:
+        masterStringOriginal = input.read()
+    input.close()
+
+    analysisTable = analysis(masterStringOriginal)
+
+    for key, value in analysisTable.items():
+        print(key, value)
+
