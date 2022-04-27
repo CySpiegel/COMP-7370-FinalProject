@@ -1,6 +1,6 @@
 import os
 import sys
-
+from collections import OrderedDict
 
 symbolSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ. '
 AlphaFrequencyTable = {'A':0.0805, 
@@ -36,6 +36,7 @@ AlphaFrequencyTable = {'A':0.0805,
 def analysis(file):
     analysisTable = {}
 
+    
     totalSymbolCount = 1
     for char in file:
         if char.upper() in symbolSet:
@@ -47,7 +48,41 @@ def analysis(file):
 
     for key, value in analysisTable.items():
         analysisTable[key] = value / totalSymbolCount
+    
+
+    detectShiftCipher(analysisTable)
+
     return analysisTable
+
+
+# detects if shift cipher is valid
+def detectShiftCipher(analysisTable):
+    # Sort both Dictionaries by frequency table
+    AlphaFrequencyTableSorted = OrderedDict(sorted(AlphaFrequencyTable.items(), key=lambda x: x[1], reverse=True))
+    analysisTable = OrderedDict(sorted(analysisTable.items(), key=lambda x: x[1], reverse=True))
+    symbolSet = list(AlphaFrequencyTableSorted.keys())
+    encryptedSymbolSet = list(analysisTable.keys())
+    
+    print(symbolSet)
+    print(encryptedSymbolSet)
+
+    encryptedChar = encryptedSymbolSet[2]
+    unencryptedChar = symbolSet[2]
+
+    #find how far this char is from actual space
+    encCharPos = findCharInSymbolSetOffset(encryptedChar, unencryptedChar)
+
+
+def findCharInSymbolSetOffset(encryptedChar, unencryptedChar):
+    possibleShift = 0
+    keyspaceSize = 28
+
+    encryptedCharPos = symbolSet.index(encryptedChar)
+    unencryptedCharPos = symbolSet.index(unencryptedChar)
+    possibleShift = (encryptedCharPos - unencryptedCharPos) % keyspaceSize
+    print(encryptedCharPos, unencryptedCharPos)
+    print("Finding Offset ", possibleShift)
+    return possibleShift
 
 
 if __name__ == "__main__":
@@ -60,6 +95,8 @@ if __name__ == "__main__":
 
     encryptedFrequencyTable = analysis(masterStringOriginal)
 
-    for key, value in encryptedFrequencyTable.items():
+    encryptedFrequencyTableSorted = OrderedDict(sorted(encryptedFrequencyTable.items(), key=lambda x: x[1], reverse=True))
+
+    for key, value in encryptedFrequencyTableSorted.items():
         print(key, value)
 

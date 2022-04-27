@@ -8,17 +8,16 @@ def rotate(text, rot):
         if character.upper() in keyspace:
             pos = keyspace.find(character.upper())
             index = (pos - rot) % 28
-            encryptedText = keyspace[index]
-            output.append(encryptedText)
+            decryptedText = keyspace[index]
+            output.append(decryptedText)
         else:
              output.append(character.upper())
-    encryptedText = ''.join(output)
-    return encryptedText
+    decryptedText = ''.join(output)
+    return decryptedText
 
 
 
 if __name__ == '__main__':
-
     keyspace = "ABCDEFGHIJKLMNOPQRSTUVWXYZ. "
     inputFile = str(sys.argv[1])
     rotKey = int(str(sys.argv[2]))
@@ -29,8 +28,8 @@ if __name__ == '__main__':
     input.close()
 
     outputFile = inputFile + ".decrypted"
-    encryptedText = rotate(planeText, rotKey)
+    decryptedText = rotate(planeText, rotKey)
     f = open(outputFile, 'w')
-    f.write(encryptedText)
+    f.write(decryptedText)
     f.close
-    print(encryptedText)
+    print(decryptedText)
