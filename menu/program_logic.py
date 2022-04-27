@@ -7,6 +7,7 @@
 
 # libraries
 import menu.menu as mm
+import decrypt.shift.rot as ds
 import os
 
 #################################################################
@@ -100,6 +101,9 @@ def step_3(file_path, best_guess):
         usr_input = input(">>")
 
         # enter shift cypher decryption here
+        ds.decrypt_shift(file_path)
+        mm.main_menu_printout(4, "finished decrypting", ["Sucesssfully decrypted shift cipher. Press Enter to continue to results."])
+        usr_input = input(">>")
 
     # substitution cypher decryption
     elif (usr_input == '3'):
@@ -107,6 +111,11 @@ def step_3(file_path, best_guess):
         usr_input = input(">>")
 
         # enter substitution cypher decryption here
+        cmd = "python3 decrypt/substitution/betterSubCrack.py " + file_path + " results/solution.txt"
+        os.system(cmd)
+        os.system("cp results/solution.txt results/best_guess.txt")
+        mm.main_menu_printout(4, "finished decrypting", ["Successfully decrypted substitution cipher. Press Enter to continue to results."])
+        usr_input = input(">>")
 
     # SOMETHING cypher decryption
     elif (usr_input == '4'):
@@ -129,11 +138,15 @@ def step_3(file_path, best_guess):
 # step 4: return results for decryption method
 def step_4(msg, key):
     # variables
-    result = """Best result and key found: 
-        KEY: """ + str(key) + """ 
-        MSG: """ + str(msg) + """ 
+    result = """Decryption Results:
         
-        Please see all results in /results/solution.txt.
+        ALL results are located in /results/solution.txt
+        BEST GUESS results are located in /results/best_guess.txt
+
+        Note:
+        - Brute force solutions will contain all brute force attempts in solution.txt but only a single best guess will be in best_guess.txt
+        - Frequency analysis solutions will only have the best solution located in solution.txt and best_guess.txt. All other guesses will not be noted. 
+
         Please press Enter to continue to main menu. """
 
     # menu
