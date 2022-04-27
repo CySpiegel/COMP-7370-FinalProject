@@ -7,7 +7,7 @@
 
 # libraries
 import menu.menu as mm
-import decrypt.shift.rot as ds
+import decryptor.shift.shift_decrypt as ds
 import os
 
 #################################################################
@@ -111,7 +111,7 @@ def step_3(file_path, best_guess):
         usr_input = input(">>")
 
         # enter substitution cypher decryption here
-        cmd = "python3 decrypt/substitution/betterSubCrack.py " + file_path + " results/solution.txt"
+        cmd = "python3 decryptor/substitution/betterSubCrack.py " + file_path + " results/solution.txt"
         os.system(cmd)
         os.system("cp results/solution.txt results/best_guess.txt")
         mm.main_menu_printout(4, "finished decrypting", ["Successfully decrypted substitution cipher. Press Enter to continue to results."])

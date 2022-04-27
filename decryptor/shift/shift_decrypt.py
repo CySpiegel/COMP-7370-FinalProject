@@ -5,7 +5,7 @@
 ##############################################################
 
 # libraries
-import decrypt.shift.best_guess as bg
+import decryptor.shift.best_guess as bg
 
 
 # rotate characters through every possible keyspace iteration
