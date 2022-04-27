@@ -50,20 +50,22 @@ def analysis(file):
         analysisTable[key] = value / totalSymbolCount
     
 
-    probabilityOfKey = detectShiftCipher(analysisTable)
+    cipherType = detectCipher(analysisTable)
 
-    print(probabilityOfKey)
-    return analysisTable
+    return cipherType
+
 
 
 # detects if shift cipher is valid
-def detectShiftCipher(analysisTable):
+def detectCipher(analysisTable):
     # Sort both Dictionaries by frequency table
+    Threshold = 5
+    encryptionType = ""
     AlphaFrequencyTableSorted = OrderedDict(sorted(AlphaFrequencyTable.items(), key=lambda x: x[1], reverse=True))
     analysisTable = OrderedDict(sorted(analysisTable.items(), key=lambda x: x[1], reverse=True))
     symbolSet = list(AlphaFrequencyTableSorted.keys())
     encryptedSymbolSet = list(analysisTable.keys())
-    
+
     print(symbolSet)
     print(encryptedSymbolSet)
 
@@ -78,16 +80,30 @@ def detectShiftCipher(analysisTable):
         #find how far this char is from actual space
         offset = findCharInSymbolSetOffset(encryptedChar, unencryptedChar)
 
-        if offset != 1:
-            print("offset", offset)
-            print(encryptedChar, unencryptedChar)
-
         if offset in offsetProbabilities:
             offsetProbabilities[offset] += 1
         else:
             offsetProbabilities[offset] = 1
+
     offsetProbabilitiesSorted = OrderedDict(sorted(offsetProbabilities.items(), key=lambda x: x[1], reverse=True))
-    return offsetProbabilitiesSorted
+    
+    cipherKeyList = list(offsetProbabilitiesSorted.keys())
+    cipherStrength = offsetProbabilitiesSorted[cipherKeyList[0]]
+
+    if cipherStrength > Threshold:
+        encryptionType = "shift"
+    else:
+        encryptionType = "substitution"
+
+    print(offsetProbabilitiesSorted)
+    analysisOutput(symbolSet, encryptedSymbolSet, offsetProbabilitiesSorted)
+
+    return encryptionType
+
+def analysisOutput(symbolSet, encryptedSymbolSet, offsetProbabilitiesSorted):
+    output = ""
+    
+    pass
 
 
 def findCharInSymbolSetOffset(encryptedChar, unencryptedChar):
@@ -106,10 +122,6 @@ if __name__ == "__main__":
         masterStringOriginal = input.read()
     input.close()
 
-    encryptedFrequencyTable = analysis(masterStringOriginal)
-
-    encryptedFrequencyTableSorted = OrderedDict(sorted(encryptedFrequencyTable.items(), key=lambda x: x[1], reverse=True))
-
-    # for key, value in encryptedFrequencyTableSorted.items():
-    #     print(key, value)
+    cipher = analysis(masterStringOriginal)
+    print(cipher)
 
