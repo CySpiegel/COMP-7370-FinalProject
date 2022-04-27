@@ -100,10 +100,6 @@ def detectCipher(analysisTable):
 
     return encryptionType
 
-def analysisOutput(symbolSet, encryptedSymbolSet, offsetProbabilitiesSorted):
-    output = ""
-    
-    pass
 
 
 def findCharInSymbolSetOffset(encryptedChar, unencryptedChar):
