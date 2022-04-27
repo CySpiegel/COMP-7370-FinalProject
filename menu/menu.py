@@ -4,7 +4,8 @@
 # Date: 4-24-2022
 #
 # ascii art words (font=Small): https://patorjk.com/software/taag/#p=display&f=Small&t=Automatic%20Encryption%20Breaker%20 
-# ascii art key: https://ascii.co.uk/art/key
+# ascii art key1: https://ascii.co.uk/art/key
+# ascii art key2: https://textart.sh/topic/key
 #########################################
 
 # libraries
@@ -34,6 +35,27 @@ def welcome_menu():
                        <|
                        <|
                        `"""
+
+    keys2 = """                                                                           
+                                                                                        
+                                ██████████████████████                                  
+                              ████                  ████                                
+                              ██    ░░░░░░░░░░░░░░  ░░██                                
+                              ██    ░░██████████    ░░██                                
+                              ██    ░░██▓▓▓▓▓▓██    ░░██                                
+                              ██    ░░██████████    ░░██                                
+                              ██                    ░░██                                
+                              ████░░░░░░░░░░░░░░░░░░████                                
+                                ██████████████████████                                  
+                                      ██    ░░██                                        
+                                      ██    ░░████████                                  
+                                      ██    ░░██    ██                                  
+                                      ██    ░░████████                                  
+                                      ██    ░░██    ██                                  
+                                      ██░░░░░░██░░░░██                                  
+                                      ████████████████                                  
+                                                                                                                                                                
+    """
 
     # initial welcome menu
     os.system("clear")

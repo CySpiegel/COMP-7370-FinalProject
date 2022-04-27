@@ -8,6 +8,7 @@
 # libraries
 import menu.menu as mm
 import decryptor.shift.shift_decrypt as ds
+import fingerprinting.fingerprint as ff
 import os
 
 #################################################################
@@ -61,10 +62,16 @@ def step_2(file_path):
     usr_input = input(">>")
 
     # matthews fingerprinting functionality here
+    # perform frequency analysis
+    choice = ff.startAnalysis(file_path)
+    
+    # menu
+    mm.main_menu_printout(4, "finished fingerprinting", ['Successfully detected cipher type. Cipher detected is "' + str(choice) + '" cipher. Press Enter to continue.'])
+    usr_input = input(">>")
 
 
     # catchall
-    return [True, '']
+    return [True, choice]
 ####################################################################
 
 
@@ -79,24 +86,16 @@ def step_3(file_path, best_guess):
             ["automatic guess decryption",
              "shift cypher decryption",
              "substitution cypher decryption",
-             "SOMETHING decryption",
              "end program"])
     usr_input = input(">>")
 
     # end program
-    if (usr_input == '5'):
+    if (usr_input == '4'):
         mm.main_menu_printout(2, "shutting down...", [''])
         exit(1)
 
-    # automatic decryption
-    elif (usr_input == '1'):
-        mm.main_menu_printout(4, "ready to start decryption", ["Press Enter to start " + str(best_guess) + " brute force decryption."])
-        usr_input = input(">>")
-
-        # enter custom guess here
-
     # shift cypher decryption
-    elif (usr_input == '2'):
+    elif ((usr_input == '2') or ((usr_input == '1') and (best_guess == 'shift'))):
         mm.main_menu_printout(4, "ready to start decryption", ["Press Enter to start shift cypher brute force decryption."])
         usr_input = input(">>")
 
@@ -106,7 +105,7 @@ def step_3(file_path, best_guess):
         usr_input = input(">>")
 
     # substitution cypher decryption
-    elif (usr_input == '3'):
+    elif ((usr_input == '3') or ((usr_input == '1') and (best_guess == 'substitution'))):
         mm.main_menu_printout(4, "ready to start decryption", ["Press Enter to start substitution cypher brute force decryption."])
         usr_input = input(">>")
 
@@ -116,13 +115,6 @@ def step_3(file_path, best_guess):
         os.system("cp results/solution.txt results/best_guess.txt")
         mm.main_menu_printout(4, "finished decrypting", ["Successfully decrypted substitution cipher. Press Enter to continue to results."])
         usr_input = input(">>")
-
-    # SOMETHING cypher decryption
-    elif (usr_input == '4'):
-        mm.main_menu_printout(4, "ready to start decryption", ["Press Enter to start SOMETHING cypher brute force decryption."])
-        usr_input = input(">>")
-
-        # enter SOMETHING cypher decryption here
 
     # error
     else:

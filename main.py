@@ -33,7 +33,7 @@ def crack():
     # step 3: choose decryption method and start decryption
     end = False
     while (end != True):
-        result = lc.step_3(file_path, "SOMETHING")
+        result = lc.step_3(file_path, result[1])
         end = result[0]
 
     # step 4: return results for decryption method
