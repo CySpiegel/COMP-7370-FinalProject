@@ -50,8 +50,9 @@ def analysis(file):
         analysisTable[key] = value / totalSymbolCount
     
 
-    detectShiftCipher(analysisTable)
+    probabilityOfKey = detectShiftCipher(analysisTable)
 
+    print(probabilityOfKey)
     return analysisTable
 
 
@@ -66,28 +67,40 @@ def detectShiftCipher(analysisTable):
     print(symbolSet)
     print(encryptedSymbolSet)
 
-    encryptedChar = encryptedSymbolSet[2]
-    unencryptedChar = symbolSet[2]
+    # loop through and build dictionary of mathing offsets
+    lengthOfSet = len(symbolSet)
+    offsetProbabilities  = {}
+    for index in range(0, lengthOfSet):
+        # get the current character
+        encryptedChar = encryptedSymbolSet[index]
+        unencryptedChar = symbolSet[index]
 
-    #find how far this char is from actual space
-    encCharPos = findCharInSymbolSetOffset(encryptedChar, unencryptedChar)
+        #find how far this char is from actual space
+        offset = findCharInSymbolSetOffset(encryptedChar, unencryptedChar)
+
+        if offset != 1:
+            print("offset", offset)
+            print(encryptedChar, unencryptedChar)
+
+        if offset in offsetProbabilities:
+            offsetProbabilities[offset] += 1
+        else:
+            offsetProbabilities[offset] = 1
+    offsetProbabilitiesSorted = OrderedDict(sorted(offsetProbabilities.items(), key=lambda x: x[1], reverse=True))
+    return offsetProbabilitiesSorted
 
 
 def findCharInSymbolSetOffset(encryptedChar, unencryptedChar):
     possibleShift = 0
     keyspaceSize = 28
-
     encryptedCharPos = symbolSet.index(encryptedChar)
     unencryptedCharPos = symbolSet.index(unencryptedChar)
-    possibleShift = (encryptedCharPos - unencryptedCharPos) % keyspaceSize
-    print(encryptedCharPos, unencryptedCharPos)
-    print("Finding Offset ", possibleShift)
+    possibleShift = (encryptedCharPos - unencryptedCharPos) % keyspaceSize  
     return possibleShift
 
 
 if __name__ == "__main__":
     inputFile = str(sys.argv[1])
-
 
     with open(str(inputFile), "r") as input:
         masterStringOriginal = input.read()
@@ -97,6 +110,6 @@ if __name__ == "__main__":
 
     encryptedFrequencyTableSorted = OrderedDict(sorted(encryptedFrequencyTable.items(), key=lambda x: x[1], reverse=True))
 
-    for key, value in encryptedFrequencyTableSorted.items():
-        print(key, value)
+    # for key, value in encryptedFrequencyTableSorted.items():
+    #     print(key, value)
 
